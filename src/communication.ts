@@ -75,7 +75,7 @@ const initialState: ComState = {
     videoNotAllowedIds: [],
     audioNotAllowedIds: [],
     spotLitIds: [],
-    currentIframe: "https://example.com",  
+    currentIframe: "https://stupendous-invincible-holiday.glitch.me/",  
     AllAudioOff:false,
 };
 
