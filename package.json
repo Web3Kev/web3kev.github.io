@@ -1,8 +1,8 @@
 {
-  "name": "my-app",
+  "name": "peliopi",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "http://web3kev.github.io",
+  "private": false,
+  "homepage": "https://web3kev.github.io",
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
