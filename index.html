@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web3Kev's Portfolio</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+    <div id="three-js-container"></div>
+    <div class="mobile-phone">
+      <div class="brove"><span class="speaker"></span></div>
+      
+        <div class="app-container">
+          <div class="padder"></div>
+          <div class="header">
+            <div class="speaker-toggle">
+              <img src="./assets/speaker-on.png" alt="Speaker" id="speaker-icon">
+            </div>
+            <div class="header-content">
+              <span style="color:teal">Web3Kev</span>'s Portfolio
+            </div>
+            <div class="mode-toggle">
+              <img src="./assets/darkmode.png" alt="Dark Mode" id="mode-icon">
+            </div>
+          </div>
+          <div id="chat-container" class="chat-container"></div>
+          <button id="scroll-to-bottom">↓</button>
+          <div class="input-container">
+            <input
+              type="text"
+              id="user-input"
+              placeholder="Type a message..."
+            />
+            <button id="send-button">Send</button>
+          </div>
+          <div class="padder"></div>
+          <div id="modal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <iframe id="project-iframe"></iframe>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <iframe id="project-iframe"></iframe>
+      </div>
+    </div> -->
+
+    <script src="./scripts/ink.js"></script>
+  <script type="module">
+    import { toggleSound, updateSpeakerIcon, clickAnswer } from './scripts/main.js';
+    import { setMode } from './scripts/toggle.js';
+    // import { initThreeJS, checkThreeEligibility, cleanupThreeJS } from './threed.js';
+    // import { initAudio, playMessageSound, playChoiceSound,playToggleSound,playThreeClickSound, playTextSound, stopTextSound, toggleSound, updateSpeakerIcon, cleanupSounds } from './audio.js';
+
+    // Any global setup or event listeners that need to be in the HTML file
+    document.querySelector('.speaker-toggle').addEventListener('click', () => {
+      toggleSound();
+      updateSpeakerIcon();
+    });
+
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+        setMode(currentTheme === 'dark-mode');
+    } else {
+        // Apply system preference if no user preference is stored
+        const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setMode(prefersDarkMode);
+    }
+
+    document.querySelector('.mode-toggle').addEventListener('click', () => {
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        setMode(!isDarkMode);
+        localStorage.setItem('theme', !isDarkMode ? 'dark-mode' : 'light-mode');
+
+    });
+
+  </script>
+</body>
+</html>
