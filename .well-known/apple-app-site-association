@@ -1,5 +1,13 @@
 {
     "appclips": {
         "apps": ["X824M7L4ZX.jp.kidsfab.Brrrowser.Clip"]
+    },
+    "applinks": {
+        "details": [
+            {
+                "appID": "X824M7L4ZX.jp.kidsfab.Brrrowser",
+                "paths": ["*"]
+            }
+        ]
     }
 }
