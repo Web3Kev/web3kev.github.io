@@ -86,7 +86,7 @@
 </head>
 <body>
     <div class="glass-card">
-        <p>Use the App Clip banner at the top to enter immersive mode.</p>
+        <p id="instruction-text">Detecting device...</p>
         
         <div class="powered-by">
             <span class="powered-text">Powered by</span>
@@ -95,5 +95,31 @@
             <span class="tagline">Web Haptic & Web AR browser</span>
         </div>
     </div>
+
+    <script>
+        function setInstruction() {
+            const el = document.getElementById('instruction-text');
+            
+            // 1. Check if it's an iOS device (iPhone, iPad, or iPod)
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // For iPadOS 13+
+
+            // 2. Check if the browser is Safari
+            // Chrome and Firefox on iOS have 'CriOS' or 'FxiOS' in userAgent
+            const isSafari = isIOS && 
+                             /Safari/i.test(navigator.userAgent) && 
+                             !/CriOS/i.test(navigator.userAgent) && 
+                             !/FxiOS/i.test(navigator.userAgent);
+
+            if (isIOS && isSafari) {
+                el.innerHTML = "Use the App Clip banner at the top to enter immersive mode.";
+            } else {
+                el.innerHTML = "Open this page on an iPhone or iPad in Safari to invoke the app.";
+            }
+        }
+
+        // Run the check on load
+        window.onload = setInstruction;
+    </script>
 </body>
 </html>
