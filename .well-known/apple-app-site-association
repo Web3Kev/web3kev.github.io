@@ -6,7 +6,7 @@
         "details": [
             {
                 "appID": "X824M7L4ZX.jp.kidsfab.Brrrowser",
-                "paths": ["*"]
+                "paths": ["/view*", "/view/*"]
             }
         ]
     }
