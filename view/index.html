@@ -7,6 +7,8 @@
     
     <meta name="apple-itunes-app" content="app-id=X824M7L4ZX, app-clip-bundle-id=jp.kidsfab.Brrrowser.Clip">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <style>
         :root {
             --bg: #000000;
@@ -32,30 +34,31 @@
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 60px 40px;
+            padding: 40px 30px;
             border-radius: 40px;
             text-align: center;
-            width: 80%;
-            max-width: 250px;
+            width: 85%;
+            max-width: 300px;
         }
 
-        .logo-img {
-            width: 70px;
-            height: 70px;
-            margin-bottom: 20px;
-            animation: breathe 4s ease-in-out infinite;
-        }
-
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
+        /* Container for QR Code */
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: white; /* QR codes work best with high contrast */
+            border-radius: 20px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         p {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 500;
             line-height: 1.4;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .powered-by {
@@ -86,6 +89,8 @@
 </head>
 <body>
     <div class="glass-card">
+        <div id="qrcode" style="display: none;"></div>
+        
         <p id="instruction-text">Detecting device...</p>
         
         <div class="powered-by">
@@ -97,29 +102,48 @@
     </div>
 
     <script>
-        function setInstruction() {
+        function init() {
             const el = document.getElementById('instruction-text');
+            const qrContainer = document.getElementById('qrcode');
             
-            // 1. Check if it's an iOS device (iPhone, iPad, or iPod)
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // For iPadOS 13+
+            // 1. Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const hasUrlParam = urlParams.has('url');
 
-            // 2. Check if the browser is Safari
-            // Chrome and Firefox on iOS have 'CriOS' or 'FxiOS' in userAgent
+            // 2. Device Detection Logic
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
             const isSafari = isIOS && 
                              /Safari/i.test(navigator.userAgent) && 
                              !/CriOS/i.test(navigator.userAgent) && 
                              !/FxiOS/i.test(navigator.userAgent);
 
+            // 3. Handle QR Code Generation
+            if (hasUrlParam) {
+                qrContainer.style.display = 'block';
+                new QRCode(qrContainer, {
+                    text: window.location.href, // Generates QR for the full current URL
+                    width: 180,
+                    height: 180,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            }
+
+            // 4. Update Instructions
             if (isIOS && isSafari) {
                 el.innerHTML = "Use the App Clip banner at the top to enter immersive mode.";
+            } else if (hasUrlParam) {
+                el.innerHTML = "Scan this code with your iPhone or iPad to open in Brrrowser.";
             } else {
                 el.innerHTML = "Open this page on an iPhone or iPad in Safari to invoke the app.";
             }
         }
 
-        // Run the check on load
-        window.onload = setInstruction;
+        // Run on load
+        window.onload = init;
     </script>
 </body>
 </html>
